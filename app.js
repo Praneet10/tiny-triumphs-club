@@ -12,6 +12,9 @@ const newHabit = document.getElementById("newHabit");
 const addHabitBtn = document.getElementById("addHabitBtn");
 const resetTodayBtn = document.getElementById("resetTodayBtn");
 const clearDataBtn = document.getElementById("clearDataBtn");
+const recoverBtn = document.getElementById("recoverBtn");
+const exportBtn = document.getElementById("exportBtn");
+const importInput = document.getElementById("importInput");
 const calendarEl = document.getElementById("calendar");
 const monthLabel = document.getElementById("monthLabel");
 const prevMonthBtn = document.getElementById("prevMonth");
@@ -38,12 +41,17 @@ function init() {
   });
   resetTodayBtn.addEventListener("click", resetToday);
   clearDataBtn.addEventListener("click", clearAll);
+  recoverBtn.addEventListener("click", recoverData);
+  exportBtn.addEventListener("click", exportData);
+  importInput.addEventListener("change", importData);
   prevMonthBtn.addEventListener("click", () => changeMonth(-1));
   nextMonthBtn.addEventListener("click", () => changeMonth(1));
 
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js");
   }
+
+  attemptAutoRecover();
 }
 
 function loadState() {
@@ -57,6 +65,7 @@ function loadState() {
         friend: { habits: defaultHabits.slice(), completions: {} },
       },
       activeProfile: "me",
+      updatedAt: Date.now(),
     };
   }
   try {
@@ -69,6 +78,7 @@ function loadState() {
           friend: { habits: defaultHabits.slice(), completions: {} },
         },
         activeProfile: "me",
+        updatedAt: Date.now(),
       };
     }
     throw new Error("bad");
@@ -81,11 +91,13 @@ function loadState() {
         friend: { habits: defaultHabits.slice(), completions: {} },
       },
       activeProfile: "me",
+      updatedAt: Date.now(),
     };
   }
 }
 
 function saveState() {
+  state.updatedAt = Date.now();
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
@@ -454,6 +466,7 @@ function migrateLegacy() {
             friend: { habits: defaultHabits.slice(), completions: {} },
           },
           activeProfile: "me",
+          updatedAt: Date.now(),
         };
       }
     } catch {
@@ -461,6 +474,136 @@ function migrateLegacy() {
     }
   }
   return null;
+}
+
+function attemptAutoRecover() {
+  const profile = state.profiles.me;
+  const hasData = profile.habits.length > 0 || Object.keys(profile.completions).length > 0;
+  if (hasData) return;
+  const candidate = findBestLegacy();
+  if (!candidate) return;
+  if (confirm("Found previous data. Restore it now?")) {
+    applyRecovered(candidate);
+  }
+}
+
+function recoverData() {
+  const candidate = findBestLegacy();
+  if (!candidate) {
+    alert("No previous data found to recover.");
+    return;
+  }
+  if (confirm("Restore the most recent data found? This will replace current data.")) {
+    applyRecovered(candidate);
+  }
+}
+
+function applyRecovered(recovered) {
+  const normalized = normalizeState(recovered);
+  if (!normalized) return;
+  Object.keys(state).forEach((k) => delete state[k]);
+  Object.assign(state, normalized);
+  saveState();
+  renderHabits();
+  renderCalendar();
+  renderWeekly();
+  renderMonthlySummary();
+  renderChart();
+}
+
+function exportData() {
+  const data = JSON.stringify(state, null, 2);
+  const blob = new Blob([data], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "tiny-triumphs-backup.json";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const parsed = JSON.parse(reader.result);
+      const normalized = normalizeState(parsed);
+      if (!normalized) throw new Error("bad");
+      if (!confirm("Import this backup? It will replace current data.")) return;
+      Object.keys(state).forEach((k) => delete state[k]);
+      Object.assign(state, normalized);
+      saveState();
+      renderHabits();
+      renderCalendar();
+      renderWeekly();
+      renderMonthlySummary();
+      renderChart();
+    } catch {
+      alert("That file could not be imported.");
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = "";
+}
+
+function findBestLegacy() {
+  const candidates = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (!key || !key.includes("habit-tracker")) continue;
+    try {
+      const raw = JSON.parse(localStorage.getItem(key));
+      const normalized = normalizeState(raw);
+      if (normalized) candidates.push(normalized);
+    } catch {
+      continue;
+    }
+  }
+  if (candidates.length === 0) return null;
+  candidates.sort((a, b) => scoreState(b) - scoreState(a));
+  return candidates[0];
+}
+
+function normalizeState(raw) {
+  if (!raw || typeof raw !== "object") return null;
+  if (raw.profiles && raw.profiles.me && raw.profiles.friend) {
+    return {
+      profiles: {
+        me: ensureProfile(raw.profiles.me),
+        friend: ensureProfile(raw.profiles.friend),
+      },
+      activeProfile: "me",
+      updatedAt: raw.updatedAt || Date.now(),
+    };
+  }
+  if (raw.habits && raw.completions) {
+    return {
+      profiles: {
+        me: ensureProfile(raw),
+        friend: { habits: defaultHabits.slice(), completions: {} },
+      },
+      activeProfile: "me",
+      updatedAt: raw.updatedAt || Date.now(),
+    };
+  }
+  return null;
+}
+
+function ensureProfile(profile) {
+  return {
+    habits: Array.isArray(profile.habits) ? profile.habits : defaultHabits.slice(),
+    completions: profile.completions && typeof profile.completions === "object" ? profile.completions : {},
+  };
+}
+
+function scoreState(candidate) {
+  const profile = candidate.profiles.me;
+  const completionCount = Object.keys(profile.completions || {}).length;
+  return (candidate.updatedAt || 0) + completionCount * 1000;
 }
 
 

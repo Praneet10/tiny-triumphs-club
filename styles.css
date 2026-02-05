@@ -175,6 +175,22 @@ button.ghost.danger {
   color: #8d2222;
 }
 
+.import-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(47, 74, 58, 0.2);
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+}
+
+.import-label input[type="file"] {
+  display: none;
+}
+
 .add-row {
   margin-top: 4px;
 }
