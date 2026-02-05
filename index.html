@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tiny Triumphs Club</title>
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#1f3b2d" />
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-aurora" aria-hidden="true"></div>
+    <main class="app">
+      <header class="topbar">
+        <div>
+          <h1>Tiny Triumphs Club</h1>
+          <p class="subtitle">You miss 100% of the shots you don't take</p>
+        </div>
+        <div class="date-chip" id="todayLabel"></div>
+      </header>
+
+      <section class="card">
+        <div class="row space">
+          <h2>Today</h2>
+          <div class="segmented" role="tablist" aria-label="Profiles">
+            <button id="meTab" class="tab active" role="tab" aria-selected="true">Me</button>
+            <button id="friendTab" class="tab" role="tab" aria-selected="false">Friend</button>
+          </div>
+          <div class="status" id="todayStatus">Not complete</div>
+        </div>
+        <div id="habitList" class="habit-list"></div>
+
+        <div class="row add-row">
+          <input id="newHabit" type="text" placeholder="Add a habit (e.g., Drink water)" />
+          <button id="addHabitBtn">Add</button>
+        </div>
+        <div class="row small">
+          <button id="resetTodayBtn" class="ghost">Reset today</button>
+          <button id="clearDataBtn" class="ghost danger">Clear all data</button>
+        </div>
+      </section>
+
+      <section class="grid">
+        <div class="card">
+          <div class="row space">
+            <h2>Calendar</h2>
+            <div class="row">
+              <button id="prevMonth" class="ghost">◀</button>
+              <div id="monthLabel" class="month-label"></div>
+              <button id="nextMonth" class="ghost">▶</button>
+            </div>
+          </div>
+          <div class="calendar" id="calendar"></div>
+          <div class="legend">
+            <span class="dot done"></span> day completed
+            <span class="dot partial"></span> partial
+            <span class="dot empty"></span> none
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Weekly View</h2>
+          <div id="weeklyView" class="weekly"></div>
+        </div>
+      </section>
+
+      <section class="grid">
+        <div class="card">
+          <h2>Monthly Summary</h2>
+          <div id="monthlySummary" class="summary"></div>
+        </div>
+        <div class="card">
+          <h2>Progress Chart</h2>
+          <canvas id="progressChart" width="600" height="240"></canvas>
+        </div>
+      </section>
+
+      <footer class="foot">Install this app from your browser menu for a home-screen icon.</footer>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
