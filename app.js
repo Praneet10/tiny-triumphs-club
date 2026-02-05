@@ -4,7 +4,6 @@ const LEGACY_KEYS = ["habit-tracker-v2"];
 const defaultHabits = ["Drink water", "Move your body", "Read 10 pages"];
 
 const state = loadState();
-let activeProfile = state.activeProfile || "me";
 
 const todayLabel = document.getElementById("todayLabel");
 const habitList = document.getElementById("habitList");
@@ -20,8 +19,6 @@ const nextMonthBtn = document.getElementById("nextMonth");
 const weeklyView = document.getElementById("weeklyView");
 const monthlySummary = document.getElementById("monthlySummary");
 const progressChart = document.getElementById("progressChart");
-const meTab = document.getElementById("meTab");
-const friendTab = document.getElementById("friendTab");
 
 let viewDate = new Date();
 
@@ -29,7 +26,6 @@ init();
 
 function init() {
   todayLabel.textContent = formatDateLabel(new Date());
-  syncTabs();
   renderHabits();
   renderCalendar();
   renderWeekly();
@@ -44,8 +40,6 @@ function init() {
   clearDataBtn.addEventListener("click", clearAll);
   prevMonthBtn.addEventListener("click", () => changeMonth(-1));
   nextMonthBtn.addEventListener("click", () => changeMonth(1));
-  meTab.addEventListener("click", () => switchProfile("me"));
-  friendTab.addEventListener("click", () => switchProfile("friend"));
 
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js");
@@ -92,7 +86,6 @@ function loadState() {
 }
 
 function saveState() {
-  state.activeProfile = activeProfile;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
@@ -472,24 +465,5 @@ function migrateLegacy() {
 
 
 function currentProfile() {
-  return state.profiles[activeProfile];
-}
-
-function switchProfile(profileKey) {
-  if (activeProfile === profileKey) return;
-  activeProfile = profileKey;
-  saveState();
-  syncTabs();
-  renderHabits();
-  renderCalendar();
-  renderWeekly();
-  renderMonthlySummary();
-  renderChart();
-}
-
-function syncTabs() {
-  meTab.classList.toggle("active", activeProfile === "me");
-  friendTab.classList.toggle("active", activeProfile === "friend");
-  meTab.setAttribute("aria-selected", activeProfile === "me");
-  friendTab.setAttribute("aria-selected", activeProfile === "friend");
+  return state.profiles.me;
 }
