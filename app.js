@@ -513,15 +513,63 @@ function applyRecovered(recovered) {
 
 function exportData() {
   const data = JSON.stringify(state, null, 2);
+  const fileName = "tiny-triumphs-backup.json";
   const blob = new Blob([data], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "tiny-triumphs-backup.json";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
+
+  if (window.showSaveFilePicker) {
+    window.showSaveFilePicker({
+      suggestedName: fileName,
+      types: [{ description: "JSON", accept: { "application/json": [".json"] } }],
+    }).then((handle) => {
+      handle.createWritable().then((writable) => {
+        writable.write(blob).then(() => {
+          writable.close();
+          alert("Backup saved.");
+        });
+      });
+    }).catch(() => {
+      fallbackDownload(blob, fileName);
+    });
+    return;
+  }
+
+  fallbackDownload(blob, fileName);
+}
+
+function fallbackDownload(blob, fileName) {
+  try {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 500);
+    alert("Backup downloaded.");
+  } catch {
+    if (navigator.clipboard) {
+      awaitClipboardText(blob)
+        .then((text) => navigator.clipboard.writeText(text))
+        .then(() => {
+          alert("Backup copied to clipboard.");
+        })
+        .catch(() => {
+          alert("Backup failed. Try a different browser.");
+        });
+    } else {
+      alert("Backup failed. Try a different browser.");
+    }
+  }
+}
+
+function awaitClipboardText(blob) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.readAsText(blob);
+  });
 }
 
 function importData(event) {
