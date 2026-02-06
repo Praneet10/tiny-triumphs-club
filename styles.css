@@ -70,25 +70,6 @@ body {
   font-size: 14px;
 }
 
-.badge-stack {
-  position: fixed;
-  right: 22px;
-  bottom: 22px;
-  display: grid;
-  gap: 8px;
-  z-index: 2;
-}
-
-.badge {
-  background: var(--navy);
-  color: white;
-  font-size: 11px;
-  letter-spacing: 0.4px;
-  padding: 8px 10px;
-  border-radius: 999px;
-  border: 2px solid var(--navy-dark);
-  box-shadow: 0 8px 14px var(--shadow);
-}
 
 .topbar {
   display: flex;
@@ -400,9 +381,5 @@ button.ghost.danger {
   }
   .side-banner {
     display: none;
-  }
-  .badge-stack {
-    right: 10px;
-    bottom: 10px;
   }
 }
