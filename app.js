@@ -15,6 +15,11 @@ const clearDataBtn = document.getElementById("clearDataBtn");
 const recoverBtn = document.getElementById("recoverBtn");
 const exportBtn = document.getElementById("exportBtn");
 const importInput = document.getElementById("importInput");
+const photoInput = document.getElementById("photoInput");
+const photoPreview = document.getElementById("photoPreview");
+const removePhotoBtn = document.getElementById("removePhotoBtn");
+const noteInput = document.getElementById("noteInput");
+const journalStatus = document.getElementById("journalStatus");
 const calendarEl = document.getElementById("calendar");
 const monthLabel = document.getElementById("monthLabel");
 const prevMonthBtn = document.getElementById("prevMonth");
@@ -44,6 +49,9 @@ function init() {
   recoverBtn.addEventListener("click", recoverData);
   exportBtn.addEventListener("click", exportData);
   importInput.addEventListener("change", importData);
+  photoInput.addEventListener("change", onPhotoSelected);
+  removePhotoBtn.addEventListener("click", removePhoto);
+  noteInput.addEventListener("input", saveNote);
   prevMonthBtn.addEventListener("click", () => changeMonth(-1));
   nextMonthBtn.addEventListener("click", () => changeMonth(1));
 
@@ -52,6 +60,7 @@ function init() {
   }
 
   attemptAutoRecover();
+  renderJournal();
 }
 
 function loadState() {
@@ -125,6 +134,9 @@ function ensureDay(dateKey) {
   if (!profile.completions[dateKey]) {
     profile.completions[dateKey] = {};
   }
+  if (!profile.completions[dateKey]._meta) {
+    profile.completions[dateKey]._meta = { note: "", photo: "" };
+  }
 }
 
 function renderHabits() {
@@ -173,6 +185,25 @@ function renderHabits() {
   });
 
   updateTodayStatus();
+}
+
+function renderJournal() {
+  const key = todayKey();
+  ensureDay(key);
+  const profile = currentProfile();
+  const meta = profile.completions[key]._meta || { note: "", photo: "" };
+
+  noteInput.value = meta.note || "";
+
+  if (meta.photo) {
+    photoPreview.src = meta.photo;
+    photoPreview.style.display = "block";
+  } else {
+    photoPreview.removeAttribute("src");
+    photoPreview.style.display = "none";
+  }
+
+  journalStatus.textContent = "Today only";
 }
 
 function updateTodayStatus() {
@@ -237,6 +268,7 @@ function resetToday() {
   profile.completions[key] = {};
   saveState();
   renderHabits();
+  renderJournal();
   renderCalendar();
   renderWeekly();
   renderMonthlySummary();
@@ -250,6 +282,7 @@ function clearAll() {
   profile.completions = {};
   saveState();
   renderHabits();
+  renderJournal();
   renderCalendar();
   renderWeekly();
   renderMonthlySummary();
@@ -474,6 +507,44 @@ function migrateLegacy() {
     }
   }
   return null;
+}
+
+function onPhotoSelected(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (!file.type.startsWith("image/")) {
+    alert("Please select an image file.");
+    event.target.value = "";
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    const key = todayKey();
+    ensureDay(key);
+    const profile = currentProfile();
+    profile.completions[key]._meta.photo = reader.result;
+    saveState();
+    renderJournal();
+  };
+  reader.readAsDataURL(file);
+  event.target.value = "";
+}
+
+function removePhoto() {
+  const key = todayKey();
+  ensureDay(key);
+  const profile = currentProfile();
+  profile.completions[key]._meta.photo = "";
+  saveState();
+  renderJournal();
+}
+
+function saveNote() {
+  const key = todayKey();
+  ensureDay(key);
+  const profile = currentProfile();
+  profile.completions[key]._meta.note = noteInput.value;
+  saveState();
 }
 
 function attemptAutoRecover() {

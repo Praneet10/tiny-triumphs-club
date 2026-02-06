@@ -31,6 +31,23 @@
           <input id="newHabit" type="text" placeholder="Add a habit (e.g., Drink water)" />
           <button id="addHabitBtn">Add</button>
         </div>
+        <div class="journal">
+          <div class="row space">
+            <h3>Daily Journal</h3>
+            <div class="status" id="journalStatus">Today only</div>
+          </div>
+          <div class="journal-photo">
+            <img id="photoPreview" alt="Daily habit photo preview" />
+            <div class="row small">
+              <label class="import-label">
+                Upload photo
+                <input id="photoInput" type="file" accept="image/*" />
+              </label>
+              <button id="removePhotoBtn" class="ghost">Remove photo</button>
+            </div>
+          </div>
+          <textarea id="noteInput" rows="4" placeholder="Optional notes for today..."></textarea>
+        </div>
         <div class="row small">
           <button id="resetTodayBtn" class="ghost">Reset today</button>
           <button id="recoverBtn" class="ghost">Recover data</button>
