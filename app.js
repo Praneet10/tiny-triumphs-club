@@ -221,9 +221,9 @@ function getDayStatus(dateKey) {
   const day = profile.completions[dateKey] || {};
   const done = profile.habits.filter((h) => day[h]).length;
   const percent = done / total;
-  if (percent === 1) return { label: "Complete", percent, color: "#1b1b18", state: "done" };
+  if (percent === 1) return { label: "Complete", percent, color: "#123b66", state: "done" };
   if (percent > 0) return { label: `Partial (${done}/${total})`, percent, color: "#b07a00", state: "partial" };
-  return { label: "Not complete", percent, color: "#b8151b", state: "none" };
+  return { label: "Not complete", percent, color: "#0c2744", state: "none" };
 }
 
 function addHabit() {

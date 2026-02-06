@@ -1,10 +1,10 @@
 :root {
   --ink: #1a1a16;
   --muted: #4c4b40;
-  --lime: #d8f05a;
-  --lime-soft: #e6f78f;
-  --red: #e31b23;
-  --red-dark: #b8151b;
+  --sky: #cfe8ff;
+  --sky-soft: #e6f2ff;
+  --navy: #123b66;
+  --navy-dark: #0c2744;
   --cream: #fffaf0;
   --paper: #ffffff;
   --shadow: rgba(20, 20, 15, 0.15);
@@ -17,7 +17,7 @@
 body {
   margin: 0;
   color: var(--ink);
-  background: var(--lime);
+  background: var(--sky);
   font-family: "Avenir Next", "Futura", "Gill Sans", "Trebuchet MS", sans-serif;
   letter-spacing: 0.1px;
 }
@@ -68,7 +68,7 @@ h3 {
   border-radius: 20px;
   padding: 20px;
   box-shadow: 0 16px 28px var(--shadow);
-  border: 2px solid #1b1b18;
+  border: 2px solid var(--navy-dark);
   animation: float-in 0.7s ease both;
 }
 
@@ -99,7 +99,7 @@ h3 {
 }
 
 .date-chip {
-  background: var(--red);
+  background: var(--navy);
   color: white;
   padding: 10px 14px;
   border-radius: 999px;
@@ -108,7 +108,7 @@ h3 {
 
 .status {
   font-weight: 700;
-  color: var(--red-dark);
+  color: var(--navy-dark);
 }
 
 .habit-list {
@@ -125,7 +125,7 @@ h3 {
   background: var(--paper);
   border-radius: 14px;
   padding: 10px 12px;
-  border: 1px solid #1b1b18;
+  border: 1px solid var(--navy-dark);
 }
 
 .habit label {
@@ -137,14 +137,14 @@ h3 {
 input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  accent-color: var(--red);
+  accent-color: var(--navy);
 }
 
 input[type="text"] {
   flex: 1;
   padding: 10px 12px;
   border-radius: 12px;
-  border: 1px solid #1b1b18;
+  border: 1px solid var(--navy-dark);
   background: white;
   font-size: 14px;
 }
@@ -153,7 +153,7 @@ textarea {
   width: 100%;
   padding: 10px 12px;
   border-radius: 12px;
-  border: 1px solid #1b1b18;
+  border: 1px solid var(--navy-dark);
   background: white;
   font-size: 14px;
   font-family: inherit;
@@ -165,7 +165,7 @@ textarea {
   padding: 12px;
   border-radius: 14px;
   background: white;
-  border: 1px solid #1b1b18;
+  border: 1px solid var(--navy-dark);
   display: grid;
   gap: 10px;
 }
@@ -180,7 +180,7 @@ textarea {
   max-height: 220px;
   object-fit: cover;
   border-radius: 12px;
-  border: 1px solid #1b1b18;
+  border: 1px solid var(--navy-dark);
   display: none;
 }
 
@@ -188,7 +188,7 @@ button {
   padding: 10px 14px;
   border-radius: 12px;
   border: none;
-  background: var(--red);
+  background: var(--navy);
   color: white;
   font-weight: 600;
   cursor: pointer;
@@ -200,13 +200,13 @@ button:hover {
 
 button.ghost {
   background: transparent;
-  border: 1px solid #1b1b18;
+  border: 1px solid var(--navy-dark);
   color: var(--ink);
 }
 
 button.ghost.danger {
-  border-color: var(--red-dark);
-  color: var(--red-dark);
+  border-color: var(--navy-dark);
+  color: var(--navy-dark);
 }
 
 .import-label {
@@ -215,7 +215,7 @@ button.ghost.danger {
   gap: 6px;
   padding: 10px 14px;
   border-radius: 12px;
-  border: 1px solid #1b1b18;
+  border: 1px solid var(--navy-dark);
   font-weight: 600;
   cursor: pointer;
   background: transparent;
@@ -241,7 +241,7 @@ button.ghost.danger {
   border-radius: 14px;
   padding: 8px;
   min-height: 68px;
-  border: 2px solid #1b1b18;
+  border: 2px solid var(--navy-dark);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -275,9 +275,9 @@ button.ghost.danger {
 .tick.partial { background: #ffe55c; }
 .tick.none { background: #ffd0d0; }
 
-.day.done { background: rgba(35, 245, 155, 0.25); border-color: #1b1b18; }
-.day.partial { background: rgba(255, 229, 92, 0.35); border-color: #1b1b18; }
-.day.none { background: rgba(255, 128, 128, 0.28); border-color: #1b1b18; }
+.day.done { background: rgba(35, 245, 155, 0.25); border-color: var(--navy-dark); }
+.day.partial { background: rgba(255, 229, 92, 0.35); border-color: var(--navy-dark); }
+.day.none { background: rgba(255, 128, 128, 0.28); border-color: var(--navy-dark); }
 
 .legend {
   display: flex;
@@ -312,7 +312,7 @@ button.ghost.danger {
   background: white;
   border-radius: 12px;
   padding: 8px 10px;
-  border: 1px solid #1b1b18;
+  border: 1px solid var(--navy-dark);
   font-size: 13px;
 }
 
