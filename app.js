@@ -221,9 +221,9 @@ function getDayStatus(dateKey) {
   const day = profile.completions[dateKey] || {};
   const done = profile.habits.filter((h) => day[h]).length;
   const percent = done / total;
-  if (percent === 1) return { label: "Complete", percent, color: "#2f4a3a", state: "done" };
-  if (percent > 0) return { label: `Partial (${done}/${total})`, percent, color: "#a17417", state: "partial" };
-  return { label: "Not complete", percent, color: "#8d4c4c", state: "none" };
+  if (percent === 1) return { label: "Complete", percent, color: "#1b1b18", state: "done" };
+  if (percent > 0) return { label: `Partial (${done}/${total})`, percent, color: "#b07a00", state: "partial" };
+  return { label: "Not complete", percent, color: "#b8151b", state: "none" };
 }
 
 function addHabit() {
@@ -474,10 +474,10 @@ function renderChart() {
     const barHeight = Math.max(6, status.percent * (height - 40));
     const y = height - barHeight - 20;
 
-    ctx.fillStyle = status.percent === 1 ? "#1f3b2d" : status.percent > 0 ? "#f3d36b" : "#ddd";
+    ctx.fillStyle = status.percent === 1 ? "#1b1b18" : status.percent > 0 ? "#ffe55c" : "#ffd0d0";
     ctx.fillRect(x, y, barWidth, barHeight);
 
-    ctx.fillStyle = "#476055";
+    ctx.fillStyle = "#4c4b40";
     ctx.font = "12px Trebuchet MS";
     ctx.fillText(date.getDate(), x, height - 6);
   }

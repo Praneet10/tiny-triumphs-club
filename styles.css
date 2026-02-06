@@ -1,13 +1,13 @@
 :root {
-  --ink: #222019;
-  --muted: #6b6a63;
-  --sage: #9bb29b;
-  --pine: #2f4a3a;
-  --sun: #f2c260;
-  --rose: #e08a8a;
-  --clay: #f4efe8;
-  --paper: #fbfaf6;
-  --shadow: rgba(34, 32, 25, 0.12);
+  --ink: #1a1a16;
+  --muted: #4c4b40;
+  --lime: #d8f05a;
+  --lime-soft: #e6f78f;
+  --red: #e31b23;
+  --red-dark: #b8151b;
+  --cream: #fffaf0;
+  --paper: #ffffff;
+  --shadow: rgba(20, 20, 15, 0.15);
 }
 
 * {
@@ -17,20 +17,13 @@
 body {
   margin: 0;
   color: var(--ink);
-  background: var(--paper);
-  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-  letter-spacing: 0.2px;
+  background: var(--lime);
+  font-family: "Avenir Next", "Futura", "Gill Sans", "Trebuchet MS", sans-serif;
+  letter-spacing: 0.1px;
 }
 
 .bg-aurora {
-  position: fixed;
-  inset: -25vmax;
-  background:
-    radial-gradient(40vmax 40vmax at 10% 10%, rgba(155, 178, 155, 0.3), transparent 60%),
-    radial-gradient(35vmax 35vmax at 85% 15%, rgba(242, 194, 96, 0.25), transparent 65%),
-    radial-gradient(55vmax 55vmax at 20% 80%, rgba(224, 138, 138, 0.22), transparent 70%);
-  filter: blur(16px);
-  z-index: -1;
+  display: none;
 }
 
 .app {
@@ -50,8 +43,9 @@ body {
 
 h1 {
   margin: 0;
-  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-  font-size: clamp(30px, 4.5vw, 42px);
+  font-family: "Avenir Next", "Futura", "Gill Sans", "Trebuchet MS", sans-serif;
+  font-size: clamp(30px, 4.6vw, 44px);
+  letter-spacing: -0.3px;
 }
 
 h2 {
@@ -70,11 +64,11 @@ h3 {
 }
 
 .card {
-  background: var(--clay);
-  border-radius: 22px;
+  background: var(--cream);
+  border-radius: 20px;
   padding: 20px;
-  box-shadow: 0 14px 32px var(--shadow);
-  border: 1px solid rgba(47, 74, 58, 0.12);
+  box-shadow: 0 16px 28px var(--shadow);
+  border: 2px solid #1b1b18;
   animation: float-in 0.7s ease both;
 }
 
@@ -105,7 +99,7 @@ h3 {
 }
 
 .date-chip {
-  background: var(--pine);
+  background: var(--red);
   color: white;
   padding: 10px 14px;
   border-radius: 999px;
@@ -114,7 +108,7 @@ h3 {
 
 .status {
   font-weight: 700;
-  color: var(--pine);
+  color: var(--red-dark);
 }
 
 .habit-list {
@@ -131,7 +125,7 @@ h3 {
   background: var(--paper);
   border-radius: 14px;
   padding: 10px 12px;
-  border: 1px solid rgba(47, 74, 58, 0.1);
+  border: 1px solid #1b1b18;
 }
 
 .habit label {
@@ -143,14 +137,14 @@ h3 {
 input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  accent-color: var(--pine);
+  accent-color: var(--red);
 }
 
 input[type="text"] {
   flex: 1;
   padding: 10px 12px;
   border-radius: 12px;
-  border: 1px solid rgba(31, 59, 45, 0.2);
+  border: 1px solid #1b1b18;
   background: white;
   font-size: 14px;
 }
@@ -159,7 +153,7 @@ textarea {
   width: 100%;
   padding: 10px 12px;
   border-radius: 12px;
-  border: 1px solid rgba(47, 74, 58, 0.2);
+  border: 1px solid #1b1b18;
   background: white;
   font-size: 14px;
   font-family: inherit;
@@ -170,8 +164,8 @@ textarea {
   margin-top: 12px;
   padding: 12px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(47, 74, 58, 0.08);
+  background: white;
+  border: 1px solid #1b1b18;
   display: grid;
   gap: 10px;
 }
@@ -186,7 +180,7 @@ textarea {
   max-height: 220px;
   object-fit: cover;
   border-radius: 12px;
-  border: 1px solid rgba(47, 74, 58, 0.12);
+  border: 1px solid #1b1b18;
   display: none;
 }
 
@@ -194,7 +188,7 @@ button {
   padding: 10px 14px;
   border-radius: 12px;
   border: none;
-  background: var(--pine);
+  background: var(--red);
   color: white;
   font-weight: 600;
   cursor: pointer;
@@ -206,13 +200,13 @@ button:hover {
 
 button.ghost {
   background: transparent;
-  border: 1px solid rgba(47, 74, 58, 0.2);
+  border: 1px solid #1b1b18;
   color: var(--ink);
 }
 
 button.ghost.danger {
-  border-color: rgba(150, 30, 30, 0.4);
-  color: #8d2222;
+  border-color: var(--red-dark);
+  color: var(--red-dark);
 }
 
 .import-label {
@@ -221,7 +215,7 @@ button.ghost.danger {
   gap: 6px;
   padding: 10px 14px;
   border-radius: 12px;
-  border: 1px solid rgba(47, 74, 58, 0.2);
+  border: 1px solid #1b1b18;
   font-weight: 600;
   cursor: pointer;
   background: transparent;
@@ -247,7 +241,7 @@ button.ghost.danger {
   border-radius: 14px;
   padding: 8px;
   min-height: 68px;
-  border: 1px solid rgba(47, 74, 58, 0.1);
+  border: 2px solid #1b1b18;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -281,9 +275,9 @@ button.ghost.danger {
 .tick.partial { background: #ffe55c; }
 .tick.none { background: #ffd0d0; }
 
-.day.done { background: rgba(35, 245, 155, 0.25); border-color: rgba(35, 245, 155, 0.85); }
-.day.partial { background: rgba(255, 229, 92, 0.35); border-color: rgba(255, 229, 92, 0.9); }
-.day.none { background: rgba(255, 128, 128, 0.28); border-color: rgba(255, 128, 128, 0.9); }
+.day.done { background: rgba(35, 245, 155, 0.25); border-color: #1b1b18; }
+.day.partial { background: rgba(255, 229, 92, 0.35); border-color: #1b1b18; }
+.day.none { background: rgba(255, 128, 128, 0.28); border-color: #1b1b18; }
 
 .legend {
   display: flex;
@@ -302,9 +296,9 @@ button.ghost.danger {
   margin-right: 6px;
 }
 
-.dot.done { background: var(--pine); }
-.dot.partial { background: var(--sun); }
-.dot.empty { background: var(--rose); }
+.dot.done { background: #23f59b; }
+.dot.partial { background: #ffe55c; }
+.dot.empty { background: #ff8080; }
 
 .weekly {
   display: grid;
@@ -318,7 +312,7 @@ button.ghost.danger {
   background: white;
   border-radius: 12px;
   padding: 8px 10px;
-  border: 1px solid rgba(47, 74, 58, 0.08);
+  border: 1px solid #1b1b18;
   font-size: 13px;
 }
 
