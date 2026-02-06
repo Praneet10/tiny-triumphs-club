@@ -34,6 +34,62 @@ body {
   gap: 22px;
 }
 
+.side-banner {
+  position: fixed;
+  top: 90px;
+  bottom: 90px;
+  width: 46px;
+  background: var(--sky-soft);
+  border: 2px solid var(--navy-dark);
+  border-radius: 999px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 10px;
+  z-index: 1;
+  box-shadow: 0 12px 18px var(--shadow);
+}
+
+.side-banner.left {
+  left: 18px;
+}
+
+.side-banner.right {
+  right: 18px;
+}
+
+.stamp {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid var(--navy-dark);
+  background: white;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+}
+
+.badge-stack {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  display: grid;
+  gap: 8px;
+  z-index: 2;
+}
+
+.badge {
+  background: var(--navy);
+  color: white;
+  font-size: 11px;
+  letter-spacing: 0.4px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 2px solid var(--navy-dark);
+  box-shadow: 0 8px 14px var(--shadow);
+}
+
 .topbar {
   display: flex;
   align-items: center;
@@ -341,5 +397,12 @@ button.ghost.danger {
   .row.space {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .side-banner {
+    display: none;
+  }
+  .badge-stack {
+    right: 10px;
+    bottom: 10px;
   }
 }
